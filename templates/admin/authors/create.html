@@ -1,0 +1,75 @@
+{% extends 'admin/app.html' %}
+
+{% block body %}
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+          <h1 class="m-0">Add Genres</h1>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8 offset-2 col-sm-12">
+            <form action="/admin/genres/store" method="post" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label for="name">Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" autofocus placeholder="Enter Name" class="form-control form-control-sm" required id="name">
+                    <span class="text-danger text-sm">Error Message</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="image">Image <span class="text-danger">*</span></label>
+                    <input type="file" name="image" class="form-control form-control-sm" required id="image">
+                    <span class="text-danger text-sm">Error Message</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Bio <span class="text-danger">*</span></label>
+                    <textarea name="name" autofocus placeholder="Enter Name" class="form-control form-control-sm" required id="name" cols="30" rows="3"></textarea>
+                    <span class="text-danger text-sm">Error Message</span>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label for="description">Description <span class="text-danger">*</span></label>
+                    <textarea name="description" autofocus placeholder="Enter Description" class="form-control form-control-sm" required id="description" cols="30" rows="7"></textarea>
+                    <span class="text-danger text-sm">Error Message</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="genre">Genre <span class="text-danger">*</span></label>
+                    <select name="genre" id="genre" class="form-control form-control-sm">
+                      {% for i in range(0, genres_len) %}
+                        <option value="{{ genres[i].id }}">{{ genres[i].name }}</option>
+                      {% endfor %}
+                    </select>
+                    <span class="text-danger text-sm">Error Message</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <a href="/admin/genres" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Cancel</a>
+                    <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Submit</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock %}

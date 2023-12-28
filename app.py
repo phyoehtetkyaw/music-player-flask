@@ -108,5 +108,106 @@ def admin_genres_delete():
     return redirect("/admin/genres")
 
 
+# main branch
+@app.route("/admin/authors")
+def admin_authors_index():
+    genres = []
+
+    conn = connect_db()
+    conn.cursor()
+    sql = "SELECT * FROM `tbl_genres` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
+    res = conn.execute(sql)
+    
+    for row in res.fetchall():
+        genres.append({
+            "id": row[0],
+            "name": row[1]
+        })
+
+    return render_template("admin/authors/index.html", genres=genres, len=len(genres))
+
+
+@app.route("/admin/authors/create")
+def admin_authors_create():
+    genres = []
+
+    conn = connect_db()
+    conn.cursor()
+    sql = "SELECT * FROM `tbl_genres` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
+    res = conn.execute(sql)
+
+    for row in res.fetchall():
+        genres.append({
+            "id": row[0],
+            "name": row[1]
+        })
+    return render_template("admin/authors/create.html", genres=genres, genres_len=len(genres))
+
+
+@app.route("/admin/authors/store", methods=["POST"])
+def admin_authors_store():
+    name = request.form.get("name")
+    image = request.form.get("image")
+    bio = request.form.get("bio")
+    description = request.form.get("description")
+    genre = request.form.get("genre")
+    created_at = datetime.datetime.now()
+
+    conn = connect_db()
+    conn.cursor()
+    sql = "INSERT INTO `tbl_genres` (`name`, `created_at`) VALUES (?, ?)"
+    conn.execute(sql, (name, created_at))
+    conn.commit()
+
+    return redirect("/admin/authors")
+
+
+@app.route("/admin/authors/edit")
+def admin_authors_edit():
+    id = request.args.get("id")
+
+    conn = connect_db()
+    conn.cursor()
+    sql = "SELECT * FROM `tbl_genres` WHERE `id`=?"
+    res = conn.execute(sql, (id))
+
+    raw = res.fetchone()
+    genre = {
+        "id": raw[0],
+        "name": raw[1]
+    }
+
+    return render_template("admin/authors/edit.html", genre=genre)
+
+
+@app.route("/admin/authors/update", methods=["POST"])
+def admin_authors_update():
+    id = request.args.get("id")
+    name = request.form.get("name")
+    updated_at = datetime.datetime.now()
+
+    conn = connect_db()
+    conn.cursor()
+    sql = "UPDATE `tbl_genres` SET `name`=?, `updated_at`=? WHERE `id`=?"
+    conn.execute(sql, (name, updated_at, id))
+    conn.commit()
+
+    return redirect("/admin/authors")
+
+
+@app.route("/admin/authors/delete")
+def admin_authors_delete():
+    id = request.args.get("id")
+    deleted_at = datetime.datetime.now()
+
+    conn = connect_db()
+    conn.cursor()
+    sql = "UPDATE `tbl_genres` SET `deleted_at`=? WHERE `id`=?"
+    conn.execute(sql, (deleted_at, id))
+    conn.commit()
+
+    return redirect("/admin/authors")
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
