@@ -19,17 +19,51 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-4 offset-4 col-sm-12">
-            <form action="/admin/genres/update?id={{ genre.id }}" method="post">
-                <div class="form-group">
+        <div class="col-md-8 offset-2 col-sm-12">
+            <form action="/admin/authors/update?id={{ authors.id }}" method="post" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
                     <label for="name">Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" placeholder="Enter Name" class="form-control form-control-sm" required id="name" value="{{ genre.name }}">
+                    <input type="text" name="name" autofocus placeholder="Enter Name" class="form-control form-control-sm" required id="name">
                     <span class="text-danger text-sm">Error Message</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="image">Image <span class="text-danger">*</span></label>
+                    <input type="file" name="image" class="form-control form-control-sm" required id="image">
+                    <span class="text-danger text-sm">Error Message</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Bio <span class="text-danger">*</span></label>
+                    <textarea name="bio" autofocus placeholder="Enter Name" class="form-control form-control-sm" required id="name" cols="30" rows="3"></textarea>
+                    <span class="text-danger text-sm">Error Message</span>
+                  </div>
                 </div>
-                <div class="form-group">
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label for="description">Description <span class="text-danger">*</span></label>
+                    <textarea name="description" autofocus placeholder="Enter Description" class="form-control form-control-sm" required id="description" cols="30" rows="7"></textarea>
+                    <span class="text-danger text-sm">Error Message</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="genre">Genre <span class="text-danger">*</span></label>
+                    <select name="genre" id="genre" class="form-control form-control-sm">
+                      {% for i in range(0, genres_len) %}
+                        <option value="{{ genres[i].id }}">{{ genres[i].name }}</option>
+                      {% endfor %}
+                    </select>
+                    <span class="text-danger text-sm">Error Message</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
                     <a href="/admin/genres" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Cancel</a>
                     <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Submit</button>
+                  </div>
                 </div>
+              </div>
             </form>
         </div>
       </div>

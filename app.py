@@ -1,5 +1,6 @@
 from flask import  Flask, render_template, request, redirect, jsonify
-import sqlite3, datetime
+import sqlite3, datetime, os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -39,6 +40,8 @@ def admin_genres_index():
             "name": row[1]
         })
 
+    conn.close()
+
     return render_template("admin/genres/index.html", genres=genres, len=len(genres))
 
 
@@ -57,6 +60,7 @@ def admin_genres_store():
     sql = "INSERT INTO `tbl_genres` (`name`, `created_at`) VALUES (?, ?)"
     conn.execute(sql, (name, created_at))
     conn.commit()
+    conn.close()
 
     return redirect("/admin/genres")
 
@@ -75,6 +79,7 @@ def admin_genres_edit():
         "id": raw[0],
         "name": raw[1]
     }
+    conn.close()
 
     return render_template("admin/genres/edit.html", genre=genre)
 
@@ -90,6 +95,7 @@ def admin_genres_update():
     sql = "UPDATE `tbl_genres` SET `name`=?, `updated_at`=? WHERE `id`=?"
     conn.execute(sql, (name, updated_at, id))
     conn.commit()
+    conn.close()
 
     return redirect("/admin/genres")
 
@@ -104,6 +110,7 @@ def admin_genres_delete():
     sql = "UPDATE `tbl_genres` SET `deleted_at`=? WHERE `id`=?"
     conn.execute(sql, (deleted_at, id))
     conn.commit()
+    conn.close()
 
     return redirect("/admin/genres")
 
@@ -111,6 +118,30 @@ def admin_genres_delete():
 # main branch
 @app.route("/admin/authors")
 def admin_authors_index():
+    authors = []
+
+    conn = connect_db()
+    conn.cursor()
+    sql = "SELECT * FROM `tbl_authors` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
+    res = conn.execute(sql)
+    
+    for row in res.fetchall():
+        authors.append({
+            "id": row[0],
+            "name": row[1],
+            "image": row[2],
+            "bio": row[3],
+            "description": row[4],
+            "genre_id": row[5],
+            "created_at": row[6]
+        })
+
+    conn.close()
+    return render_template("admin/authors/index.html", authors=authors, len=len(authors))
+
+
+@app.route("/admin/authors/create")
+def admin_authors_create():
     genres = []
 
     conn = connect_db()
@@ -124,40 +155,29 @@ def admin_authors_index():
             "name": row[1]
         })
 
-    return render_template("admin/authors/index.html", genres=genres, len=len(genres))
-
-
-@app.route("/admin/authors/create")
-def admin_authors_create():
-    genres = []
-
-    conn = connect_db()
-    conn.cursor()
-    sql = "SELECT * FROM `tbl_genres` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
-    res = conn.execute(sql)
-
-    for row in res.fetchall():
-        genres.append({
-            "id": row[0],
-            "name": row[1]
-        })
+    conn.close()
     return render_template("admin/authors/create.html", genres=genres, genres_len=len(genres))
 
 
 @app.route("/admin/authors/store", methods=["POST"])
 def admin_authors_store():
     name = request.form.get("name")
-    image = request.form.get("image")
+    image = request.files.get("image")
     bio = request.form.get("bio")
     description = request.form.get("description")
-    genre = request.form.get("genre")
+    genre_id = request.form.get("genre")
     created_at = datetime.datetime.now()
+    print(created_at)
+
+    image_name = secure_filename(image.filename)
+    image.save(os.path.join("storage/authors/", image_name))
 
     conn = connect_db()
     conn.cursor()
-    sql = "INSERT INTO `tbl_genres` (`name`, `created_at`) VALUES (?, ?)"
-    conn.execute(sql, (name, created_at))
+    sql = "INSERT INTO `tbl_authors` (`name`, `image`, `bio`, `description`, `genre_id`, `created_at`) VALUES (?, ?, ?, ?, ?, ?)"
+    conn.execute(sql, (name, image_name, bio, description, genre_id, created_at))
     conn.commit()
+    conn.close()
 
     return redirect("/admin/authors")
 
@@ -177,6 +197,8 @@ def admin_authors_edit():
         "name": raw[1]
     }
 
+    conn.close()
+
     return render_template("admin/authors/edit.html", genre=genre)
 
 
@@ -191,6 +213,7 @@ def admin_authors_update():
     sql = "UPDATE `tbl_genres` SET `name`=?, `updated_at`=? WHERE `id`=?"
     conn.execute(sql, (name, updated_at, id))
     conn.commit()
+    conn.close()
 
     return redirect("/admin/authors")
 
@@ -202,9 +225,10 @@ def admin_authors_delete():
 
     conn = connect_db()
     conn.cursor()
-    sql = "UPDATE `tbl_genres` SET `deleted_at`=? WHERE `id`=?"
+    sql = "UPDATE `tbl_authors` SET `deleted_at`=? WHERE `id`=?"
     conn.execute(sql, (deleted_at, id))
     conn.commit()
+    conn.close()
 
     return redirect("/admin/authors")
 
