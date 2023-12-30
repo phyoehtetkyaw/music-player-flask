@@ -4,6 +4,8 @@ import secrets
 from app.classes.Genre import Genre
 from app.classes.Author import Author
 from app.classes.Ticket import Ticket
+from app.classes.AlbumComment import AlbumComment
+from app.classes.AlbumReply import AlbumReply
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -45,5 +47,13 @@ app.add_url_rule('/admin/tickets/store', "tickets_store", methods=["POST"], view
 app.add_url_rule('/admin/tickets/edit/<id>', "tickets_edit", view_func=Ticket.edit)
 app.add_url_rule('/admin/tickets/update/<id>', "tickets_update", methods=["POST"], view_func=Ticket.update)
 app.add_url_rule('/admin/tickets/delete/<id>', "tickets_delete", view_func=Ticket.delete)
+
+# album_comments and album_replies
+app.add_url_rule('/admin/album_comments', "album_comments_index", view_func=AlbumComment.index)
+app.add_url_rule('/admin/album_comments/delete/<id>', "album_comments_delete", view_func=AlbumComment.delete)
+
+app.add_url_rule('/admin/album_replies', "album_replies_index", view_func=AlbumReply.index)
+app.add_url_rule('/admin/album_replies/delete/<id>', "album_replies_delete", view_func=AlbumReply.delete)
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
