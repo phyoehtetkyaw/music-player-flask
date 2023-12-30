@@ -43,10 +43,10 @@
                             <td><img style="width: 100px;" src="{{ url_for('static', filename='upload/authors/' + authors[i].image) }}" alt="{{ authors[i].image }}"></td>
                             <td>{{ authors[i].bio }}</td>
                             <td>{{ authors[i].description }}</td>
-                            <td>{{ authors[i].genre_id }}</td>
+                            <td>{{ authors[i].genre }}</td>
                             <td>
-                                <a href="/admin/authors/edit?id={{ authors[i].id }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
-                                <a href="/admin/authors/delete?id={{ authors[i].id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt"></i> Delete</a>
+                                <a href="/admin/authors/edit/{{ authors[i].id }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                                <a href="/admin/authors/delete/{{ authors[i].id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt"></i> Delete</a>
                             </td>
                         </tr>
                     {% endfor %}

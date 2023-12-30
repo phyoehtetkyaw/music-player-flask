@@ -20,11 +20,13 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-4 offset-4 col-sm-12">
-            <form action="/admin/genres/update?id={{ genre.id }}" method="post">
+            <form action="/admin/genres/update/{{ genre.id }}" method="post">
                 <div class="form-group">
                     <label for="name">Name <span class="text-danger">*</span></label>
                     <input type="text" name="name" placeholder="Enter Name" class="form-control form-control-sm" required id="name" value="{{ genre.name }}">
-                    <span class="text-danger text-sm">Error Message</span>
+                    {% if session["genre_name_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("genre_name_error", None) }}</span>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <a href="/admin/genres" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Cancel</a>

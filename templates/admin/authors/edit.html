@@ -20,46 +20,53 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-8 offset-2 col-sm-12">
-            <form action="/admin/authors/update?id={{ authors.id }}" method="post" enctype="multipart/form-data">
+            <form action="/admin/authors/update/{{ authors.id }}" method="post" enctype="multipart/form-data">
               <div class="row">
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
                     <label for="name">Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" autofocus placeholder="Enter Name" class="form-control form-control-sm" required id="name">
-                    <span class="text-danger text-sm">Error Message</span>
+                    <input type="text" name="name" value="{{ authors.name }}" autofocus placeholder="Enter Name" class="form-control form-control-sm" required id="name">
+                    {% if session["author_name_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("author_name_error", None) }}</span>
+                    {% endif %}
                   </div>
                   <div class="form-group">
                     <label for="image">Image <span class="text-danger">*</span></label>
-                    <input type="file" name="image" class="form-control form-control-sm" required id="image">
-                    <span class="text-danger text-sm">Error Message</span>
+                    <input type="file" name="image" class="form-control form-control-sm" id="image">
                   </div>
                   <div class="form-group">
-                    <label for="name">Bio <span class="text-danger">*</span></label>
-                    <textarea name="bio" autofocus placeholder="Enter Name" class="form-control form-control-sm" required id="name" cols="30" rows="3"></textarea>
-                    <span class="text-danger text-sm">Error Message</span>
+                    <label for="bio">Bio <span class="text-danger">*</span></label>
+                    <textarea name="bio" autofocus placeholder="Enter Bio" class="form-control form-control-sm" required id="bio" cols="30" rows="3">{{ authors.bio }}</textarea>
+                    {% if session["author_bio_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("author_bio_error", None) }}</span>
+                    {% endif %}
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
                     <label for="description">Description <span class="text-danger">*</span></label>
-                    <textarea name="description" autofocus placeholder="Enter Description" class="form-control form-control-sm" required id="description" cols="30" rows="7"></textarea>
-                    <span class="text-danger text-sm">Error Message</span>
+                    <textarea name="description" autofocus placeholder="Enter Description" class="form-control form-control-sm" required id="description" cols="30" rows="7">{{ authors.description }}</textarea>
+                    {% if session["author_description_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("author_description_error", None) }}</span>
+                    {% endif %}
                   </div>
                   <div class="form-group">
                     <label for="genre">Genre <span class="text-danger">*</span></label>
                     <select name="genre" id="genre" class="form-control form-control-sm">
                       {% for i in range(0, genres_len) %}
-                        <option value="{{ genres[i].id }}">{{ genres[i].name }}</option>
+                        <option value="{{ genres[i].id }}" {% if genres[i].id == authors.genre_id %} selected {% endif %}>{{ genres[i].name }}</option>
                       {% endfor %}
                     </select>
-                    <span class="text-danger text-sm">Error Message</span>
+                    {% if session["author_genreid_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("author_genreid_error", None) }}</span>
+                    {% endif %}
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <a href="/admin/genres" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Cancel</a>
+                    <a href="/admin/authors" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Cancel</a>
                     <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Submit</button>
                   </div>
                 </div>
