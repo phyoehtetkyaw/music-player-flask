@@ -6,6 +6,7 @@ from app.classes.Author import Author
 from app.classes.Ticket import Ticket
 from app.classes.AlbumComment import AlbumComment
 from app.classes.AlbumReply import AlbumReply
+from app.classes.NewsCategory import NewsCategory
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -54,6 +55,15 @@ app.add_url_rule('/admin/album_comments/delete/<id>', "album_comments_delete", v
 
 app.add_url_rule('/admin/album_replies', "album_replies_index", view_func=AlbumReply.index)
 app.add_url_rule('/admin/album_replies/delete/<id>', "album_replies_delete", view_func=AlbumReply.delete)
+
+
+# news_categories
+app.add_url_rule('/admin/news_categories', "news_categories_index", view_func=NewsCategory.index)
+app.add_url_rule('/admin/news_categories/create', "news_categories_create", view_func=NewsCategory.create)
+app.add_url_rule('/admin/news_categories/store', "news_categories_store", methods=["POST"], view_func=NewsCategory.store)
+app.add_url_rule('/admin/news_categories/edit/<id>', "news_categories_edit", view_func=NewsCategory.edit)
+app.add_url_rule('/admin/news_categories/update/<id>', "news_categories_update", methods=["POST"], view_func=NewsCategory.update)
+app.add_url_rule('/admin/news_categories/delete/<id>', "news_categories_delete", view_func=NewsCategory.delete)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
