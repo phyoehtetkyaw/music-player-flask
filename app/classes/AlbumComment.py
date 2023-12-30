@@ -10,13 +10,13 @@ class AlbumComment:
 
         conn = DB.connect_db()
         conn.cursor()
-        sql = "SELECT * FROM `tbl_album_comments` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
+        sql = "SELECT * FROM `tbl_album_comments.comment`, `tbl_users.name` JOIN `tbl_album_comments.user_id` = `tbl_users.id` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
         res = conn.execute(sql)
         
         for row in res.fetchall():
             album_comments.append({
                 "id": row[0],
-                "user_id": row[1],
+                "user": row[1],
                 "album_id": row[2],
                 "comment": row[3]
             })
