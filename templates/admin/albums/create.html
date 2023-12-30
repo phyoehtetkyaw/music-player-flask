@@ -1,0 +1,80 @@
+{% extends 'admin/app.html' %}
+
+{% block body %}
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+          <h1 class="m-0">Add Albums</h1>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8 offset-2 col-sm-12">
+            <form action="/admin/albums/store" method="post" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label for="title">Title <span class="text-danger">*</span></label>
+                    <input type="text" name="title" autofocus placeholder="Enter Title" class="form-control form-control-sm" required id="title">
+                    {% if session["album_title_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("album_title_error", None) }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="form-group">
+                    <label for="author">Author <span class="text-danger">*</span></label>
+                    <select name="author" id="author" class="form-control form-control-sm" required>
+                      <option value="1">Phyoe Htet Kyaw</option>
+                      <option value="2">Wai Wai Naing</option>
+                    </select>
+                    {% if session["album_author_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("album_author_error", None) }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="form-group">
+                    <label for="thumbnail">Thumbnail <span class="text-danger">*</span></label>
+                    <input type="file" name="thumbnail" placeholder="Enter Thumbnail" class="form-control form-control-sm" required id="thumbnail">
+                    {% if session["album_thumbnail_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("album_thumbnail_error", None) }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label for="description">Description <span class="text-danger">*</span></label>
+                    <textarea name="description" id="description" class="form-control form-control-sm" placeholder="Enter Description" cols="30" rows="5"></textarea>
+                    {% if session["album_description_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("album_description_error", None) }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="form-group">
+                    <label for="price">Price <span class="text-danger">*</span></label>
+                    <input type="number" name="price" autofocus placeholder="Enter Price" class="form-control form-control-sm" required id="price">
+                    {% if session["album_price_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("album_price_error", None) }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                  <a href="/admin/albums" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Cancel</a>
+                  <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Submit</button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock %}

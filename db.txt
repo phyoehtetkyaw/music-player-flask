@@ -25,7 +25,7 @@ tbl_events
 - location
 - description
 - banner
-- date
+- start_datetime
 - created_at
 - updated_at
 - deleted_at 
@@ -121,7 +121,7 @@ tbl_news_categories
 tbl_news
 --------
 - id
-- name
+- title
 - description
 - image
 - created_at
