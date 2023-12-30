@@ -1,0 +1,62 @@
+{% extends 'admin/app.html' %}
+
+{% block body %}
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Events</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <a href="/admin/events/create" class="btn btn-sm btn-primary float-right"><i class="fa fa-plus"></i> Add</a>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+            <table id="example2" class="table table-bordered table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th>Description</th>
+                        <th>Banner</th>
+                        <th>Start Datetime</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(0, len) %}
+                        <tr>
+                            <td>{{ i+1 }}</td>
+                            <td>{{ events[i].title }}</td>
+                            <td>{{ events[i].location }}</td>
+                            <td>{{ events[i].description }}</td>
+                            <td><img style="width: 100px;" src="{{ url_for('static', filename='upload/events/' + events[i].banner) }}" alt="{{ events[i].banner }}"></td>
+                            <td>{{ events[i].start_datetime }}</td>
+                            <td>
+                                <a href="/admin/events/edit/{{ events[i].id }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                                <a href="/admin/events/delete/{{ events[i].id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt"></i> Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock %}
