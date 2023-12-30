@@ -3,6 +3,7 @@ import secrets
 
 from app.classes.Genre import Genre
 from app.classes.Author import Author
+from app.classes.Ticket import Ticket
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -37,5 +38,12 @@ app.add_url_rule('/admin/authors/edit/<id>', "authors_edit", view_func=Author.ed
 app.add_url_rule('/admin/authors/update/<id>', "authors_update", methods=["POST"], view_func=Author.update)
 app.add_url_rule('/admin/authors/delete/<id>', "authors_delete", view_func=Author.delete)
 
+# tickets
+app.add_url_rule('/admin/tickets', "tickets_index", view_func=Ticket.index)
+app.add_url_rule('/admin/tickets/create', "tickets_create", view_func=Ticket.create)
+app.add_url_rule('/admin/tickets/store', "tickets_store", methods=["POST"], view_func=Ticket.store)
+app.add_url_rule('/admin/tickets/edit/<id>', "tickets_edit", view_func=Ticket.edit)
+app.add_url_rule('/admin/tickets/update/<id>', "tickets_update", methods=["POST"], view_func=Ticket.update)
+app.add_url_rule('/admin/tickets/delete/<id>', "tickets_delete", view_func=Ticket.delete)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

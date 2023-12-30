@@ -1,0 +1,50 @@
+{% extends 'admin/app.html' %}
+
+{% block body %}
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+          <h1 class="m-0">Edit Tickets</h1>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4 offset-4 col-sm-12">
+            <form action="/admin/tickets/update/{{ ticket.id }}" method="post">
+                <div class="form-group">
+                    <label for="ticket-type">Ticket Type <span class="text-danger">*</span></label>
+                    <input type="text" name="ticket_type" autofocus placeholder="Enter Ticket Type" class="form-control form-control-sm" required id="ticket-type">
+                    {% if session["ticket_type_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("ticket_type_error", None) }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="ticket-price">Prices <span class="text-danger">*</span></label>
+                  <input type="text" name="ticket_price" autofocus placeholder="Enter Ticket Prices" class="form-control form-control-sm" required id="ticket-price">
+                  {% if session["ticket_price_error"] %}
+                      <span class="text-danger text-sm">{{ session.pop("ticket_price_error", None) }}</span>
+                  {% endif %}                  
+                </div>
+                <div class="form-group">
+                    <a href="/admin/tickets" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Cancel</a>
+                    <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Submit</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock %}
