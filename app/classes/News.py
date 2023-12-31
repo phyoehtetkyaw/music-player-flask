@@ -49,8 +49,15 @@ class News:
             session["news_description_error"] = "Description is required!"
             return redirect("/admin/news/create")
         
-        image_name = secure_filename(image.filename)
-        image.save(os.path.join("static/upload/news/", image_name))
+        directory = "static/upload/news/"
+        
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        
+        
+        timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+        image_name = f"{timestamp}_{secure_filename(image.filename)}"
+        image.save(os.path.join(directory, image_name))
 
         conn = DB.connect_db()
         conn.cursor()
@@ -108,8 +115,14 @@ class News:
             sql = "UPDATE `tbl_news` SET `title`=?, `description`=?, `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (title, description, updated_at, id)) 
         else:   
-            image_name = secure_filename(image.filename)
-            image.save(os.path.join("static/upload/news/", image_name))
+            directory = "static/upload/news/"
+        
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            
+            timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+            image_name = f"{timestamp}_{secure_filename(image.filename)}"
+            image.save(os.path.join(directory, image_name))
 
             sql = "UPDATE `tbl_news` SET `title`=?, `description`=?, `image`=?, `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (title, description, image_name, updated_at, id))

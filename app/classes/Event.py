@@ -61,8 +61,14 @@ class Event:
             session["event_start_datetime_error"] = "Start datetime is required!"
             return redirect("/admin/events/create")
         
-        banner_name = secure_filename(banner.filename)
-        banner.save(os.path.join("static/upload/events/", banner_name))
+        directory = "static/upload/events/"
+        
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        
+        timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+        banner_name = f"{timestamp}_{secure_filename(banner.filename)}"
+        banner.save(os.path.join(directory, banner_name))
 
         conn = DB.connect_db()
         conn.cursor()
@@ -132,8 +138,14 @@ class Event:
             sql = "UPDATE `tbl_events` SET `title`=?, `location`=?, `description`=?, `start_datetime`=?, `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (title, location, description, start_datetime, updated_at, id)) 
         else:   
-            banner_name = secure_filename(banner.filename)
-            banner.save(os.path.join("static/upload/events/", banner_name))
+            directory = "static/upload/events/"
+        
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            
+            timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+            banner_name = f"{timestamp}_{secure_filename(banner.filename)}"
+            banner.save(os.path.join(directory, banner_name))
 
             sql = "UPDATE `tbl_events` SET `title`=?, `location`=?, `description`=?, `banner`=?, `start_datetime`=?, `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (title, location, description, banner_name, start_datetime, updated_at, id))

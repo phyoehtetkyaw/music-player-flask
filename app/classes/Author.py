@@ -82,9 +82,14 @@ class Author:
             session["author_genreid_error"] = "Genre is required!"
             return redirect("/admin/authors/create")
 
+        directory = "static/upload/authors/"
+        
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
-        image_name = secure_filename(image.filename)
-        image.save(os.path.join("static/upload/authors/", image_name))
+        timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+        image_name = f"{timestamp}_{secure_filename(image.filename)}"
+        image.save(os.path.join(directory, image_name))
 
         conn = DB.connect_db()
         conn.cursor()
@@ -164,8 +169,14 @@ class Author:
             sql = "UPDATE `tbl_authors` SET `name`=?, `bio`=?, `description`=?, `genre_id`=?, `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (name, bio, description, genre_id, updated_at, id)) 
         else:   
-            image_name = secure_filename(image.filename)
-            image.save(os.path.join("static/upload/authors/", image_name))
+            directory = "static/upload/authors/"
+        
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+
+            timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+            image_name = f"{timestamp}_{secure_filename(image.filename)}"
+            image.save(os.path.join(directory, image_name))
 
             sql = "UPDATE `tbl_authors` SET `name`=?, `image`=?, `bio`=?, `description`=?, `genre_id`=?, `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (name, image_name, bio, description, genre_id, updated_at, id))

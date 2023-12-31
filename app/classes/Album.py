@@ -81,8 +81,14 @@ class Album:
             session["album_price_error"] = "Price is required!"
             return redirect("/admin/albums/create")
         
-        thumbnail_name = secure_filename(thumbnail.filename)
-        thumbnail.save(os.path.join("static/upload/albums/", thumbnail_name))
+        directory = "static/upload/albums/"
+        
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+        thumbnail_name = f"{timestamp}_{secure_filename(thumbnail.filename)}"
+        thumbnail.save(os.path.join(directory, thumbnail_name))
 
         conn = DB.connect_db()
         conn.cursor()
@@ -162,8 +168,14 @@ class Album:
             sql = "UPDATE `tbl_albums` SET `title`=?, `author_id`=?, `description`=?, `price`=?, `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (title, author_id, description, price, updated_at, id)) 
         else:   
-            thumbnail_name = secure_filename(thumbnail.filename)
-            thumbnail.save(os.path.join("static/upload/albums/", thumbnail_name))
+            directory = "static/upload/albums/"
+
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+
+            timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+            thumbnail_name = f"{timestamp}_{secure_filename(thumbnail.filename)}"
+            thumbnail.save(os.path.join(directory, thumbnail_name))
 
             sql = "UPDATE `tbl_albums` SET `title`=?, `author_id`=?, `description`=?, `thumbnail`=?, `price`=?, `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (title, author_id, description, thumbnail_name, price, updated_at, id))

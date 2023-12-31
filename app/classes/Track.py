@@ -86,8 +86,14 @@ class Track:
             session["track_audio_error"] = "Audio File is required!"
             return redirect("/admin/tracks/create")
         
-        audio_name = secure_filename(audio.filename)
-        audio.save(os.path.join("static/upload/tracks/", audio_name))
+        directory = "static/upload/tracks/"
+        
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        
+        timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+        audio_name = f"{timestamp}_{secure_filename(audio.filename)}"
+        audio.save(os.path.join(directory, audio_name))
 
         conn = DB.connect_db()
         conn.cursor()
@@ -172,8 +178,14 @@ class Track:
             sql = "UPDATE `tbl_tracks` SET `title`=?, `author_id`=?, `album_id`=?, `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (title, author_id, album_id, updated_at, id)) 
         else:   
-            audio_name = secure_filename(audio.filename)
-            audio.save(os.path.join("static/upload/tracks/", audio_name))
+            directory = "static/upload/tracks/"
+        
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            
+            timestamp = str(datetime.datetime.now().timestamp()).split(".")[0]
+            audio_name = f"{timestamp}_{secure_filename(audio.filename)}"
+            audio.save(os.path.join(directory, audio_name))
 
             sql = "UPDATE `tbl_tracks` SET `title`=?, `author_id`=?, `album_id`=?, `audio`=? `updated_at`=? WHERE `id`=?"
             conn.execute(sql, (title, author_id, album_id, audio, updated_at, id))
