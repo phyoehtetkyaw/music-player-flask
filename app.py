@@ -11,6 +11,8 @@ from app.classes.NewsCategory import NewsCategory
 from app.classes.Event import Event
 from app.classes.Album import Album
 from app.classes.News import News
+from app.classes.NewsComment import NewsComment
+from app.classes.NewsReply import NewsReply
 from app.classes.Product import Product
 from app.classes.Track import Track
 
@@ -94,6 +96,14 @@ app.add_url_rule('/admin/news/store', "news_store", methods=["POST"], view_func=
 app.add_url_rule('/admin/news/edit/<id>', "news_edit", view_func=News.edit)
 app.add_url_rule('/admin/news/update/<id>', "news_update", methods=["POST"], view_func=News.update)
 app.add_url_rule('/admin/news/delete/<id>', "news_delete", view_func=News.delete)
+
+# news_comments
+app.add_url_rule('/admin/news/comments', "news_comments_index", view_func=NewsComment.index)
+app.add_url_rule('/admin/news/comments/delete/<id>', "news_comments_delete", view_func=NewsComment.delete)
+
+# news_replies
+app.add_url_rule('/admin/news/replies', "news_replies_index", view_func=NewsReply.index)
+app.add_url_rule('/admin/news/replies/delete/<id>', "news_replies_delete", view_func=NewsReply.delete)
 
 # products
 app.add_url_rule('/admin/products', "products_index", view_func=Product.index)
