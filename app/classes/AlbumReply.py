@@ -10,7 +10,15 @@ class AlbumReply:
 
         conn = DB.connect_db()
         conn.cursor()
-        sql = "SELECT * FROM `tbl_album_replies` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
+        sql = """
+            SELECT `tbl_album_replies`.*, `tbl_users`.`username`, `tbl_albums`.`title`, `tbl_album_comments`.`comment`
+            FROM `tbl_album_replies` 
+            JOIN `tbl_users` ON `tbl_album_replies`.`user_id`=`tbl_users`.`id` 
+            JOIN `tbl_albums` ON `tbl_album_replies`.`album_id`=`tbl_albums`.`id`  
+            JOIN `tbl_album_comments` ON `tbl_album_replies`.`comment_id`=`tbl_album_comments`.`id`  
+            WHERE `tbl_album_replies`.`deleted_at` IS NULL 
+            ORDER BY `tbl_album_replies`.`id` DESC
+        """
         res = conn.execute(sql)
         
         for row in res.fetchall():
@@ -24,11 +32,11 @@ class AlbumReply:
 
         conn.close()
 
-        return render_template("admin/album_replies/index.html", album_replies=album_replies, len=len(album_replies))
+        return render_template("admin/albums/replies/index.html", album_replies=album_replies, len=len(album_replies))
     
     @staticmethod
     def create():
-        return render_template("admin/album_replies/create.html")
+        return render_template("admin/albums/replies/create.html")
     
     @staticmethod
     def delete(id):
@@ -44,4 +52,4 @@ class AlbumReply:
         conn.commit()
         conn.close()
 
-        return redirect("/admin/album_replies")
+        return redirect("/admin/albums/replies")

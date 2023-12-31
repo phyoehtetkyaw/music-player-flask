@@ -56,12 +56,12 @@ app.add_url_rule('/admin/tickets/update/<id>', "tickets_update", methods=["POST"
 app.add_url_rule('/admin/tickets/delete/<id>', "tickets_delete", view_func=Ticket.delete)
 
 # album_comments
-app.add_url_rule('/admin/album_comments', "album_comments_index", view_func=AlbumComment.index)
-app.add_url_rule('/admin/album_comments/delete/<id>', "album_comments_delete", view_func=AlbumComment.delete)
+app.add_url_rule('/admin/albums/comments', "album_comments_index", view_func=AlbumComment.index)
+app.add_url_rule('/admin/albums/comments/delete/<id>', "album_comments_delete", view_func=AlbumComment.delete)
 
 # album_replies
-app.add_url_rule('/admin/album_replies', "album_replies_index", view_func=AlbumReply.index)
-app.add_url_rule('/admin/album_replies/delete/<id>', "album_replies_delete", view_func=AlbumReply.delete)
+app.add_url_rule('/admin/albums/replies', "album_replies_index", view_func=AlbumReply.index)
+app.add_url_rule('/admin/albums/replies/delete/<id>', "album_replies_delete", view_func=AlbumReply.delete)
 
 # news_categories
 app.add_url_rule('/admin/news_categories', "news_categories_index", view_func=NewsCategory.index)

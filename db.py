@@ -159,14 +159,16 @@ CREATE TABLE `tbl_tracks` (
 CREATE TABLE `tbl_users` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   `username` varchar(255) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `role` int(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL
 );
+
+INSERT INTO `tbl_users` (`username`, `email`, `password`, `role`, `created_at`) VALUES ("Phyoe Htet Kyaw", "phyoehtetkyaw614@gmail.com", "123456789", 1, "0000-00-00 00:00:00");
+INSERT INTO `tbl_users` (`username`, `email`, `password`, `role`, `created_at`) VALUES ("Wai Wai Naing", "waiwainaing716@gmail.com", "123456789", 1, "0000-00-00 00:00:00");
 """
 
 cursor.executescript(sql)
