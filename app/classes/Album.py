@@ -11,14 +11,20 @@ class Album:
 
         conn = DB.connect_db()
         conn.cursor()
-        sql = "SELECT * FROM `tbl_albums` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
+        sql = """
+            SELECT `tbl_albums`.*, `tbl_authors`.`name` AS `author` 
+            FROM `tbl_albums` 
+            JOIN `tbl_authors` ON `tbl_albums`.`author_id`=`tbl_authors`.`id`
+            WHERE `tbl_albums`.`deleted_at` IS NULL
+            ORDER BY `tbl_albums`.`id` DESC
+        """
         res = conn.execute(sql)
         
         for row in res.fetchall():
             albums.append({
                 "id": row[0],
                 "title": row[1],
-                "author_id": row[2],
+                "author": row[9],
                 "description": row[3],
                 "thumbnail": row[4],
                 "price": row[5],
@@ -30,7 +36,21 @@ class Album:
     
     @staticmethod
     def create():
-        return render_template("admin/albums/create.html")
+        authors = []
+
+        conn = DB.connect_db()
+        conn.cursor()
+        sql = "SELECT * FROM `tbl_authors` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
+        res = conn.execute(sql)
+        
+        for row in res.fetchall():
+            authors.append({
+                "id": row[0],
+                "name": row[1]
+            })
+
+        conn.close()
+        return render_template("admin/albums/create.html", authors=authors, len=len(authors))
     
     @staticmethod
     def store():
@@ -92,10 +112,20 @@ class Album:
             "description": raw[4],
             "price": raw[5]
         }
-        conn.close()
-        print(albums)
 
-        return render_template("admin/albums/edit.html", albums=albums)
+        authors = []
+        sql = "SELECT * FROM `tbl_authors` WHERE `deleted_at` IS NULL ORDER BY `id` DESC"
+        res = conn.execute(sql)
+        
+        for row in res.fetchall():
+            authors.append({
+                "id": row[0],
+                "name": row[1]
+            })
+
+        conn.close()
+
+        return render_template("admin/albums/edit.html", albums=albums, authors=authors, len=len(authors))
     
     @staticmethod
     def update(id):

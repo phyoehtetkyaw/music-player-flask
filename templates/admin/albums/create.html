@@ -33,8 +33,9 @@
                   <div class="form-group">
                     <label for="author">Author <span class="text-danger">*</span></label>
                     <select name="author" id="author" class="form-control form-control-sm" required>
-                      <option value="1">Phyoe Htet Kyaw</option>
-                      <option value="2">Wai Wai Naing</option>
+                      {% for i in range(0, len) %}
+                        <option value="{{ authors[i].id }}">{{ authors[i].name }}</option>
+                      {% endfor %}
                     </select>
                     {% if session["album_author_error"] %}
                       <span class="text-danger text-sm">{{ session.pop("album_author_error", None) }}</span>

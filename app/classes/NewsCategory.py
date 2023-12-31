@@ -21,11 +21,11 @@ class NewsCategory:
 
         conn.close()
 
-        return render_template("admin/news_categories/index.html", news_categories=news_categories, len=len(news_categories))
+        return render_template("admin/news/categories/index.html", news_categories=news_categories, len=len(news_categories))
     
     @staticmethod
     def create():
-        return render_template("admin/news_categories/create.html")
+        return render_template("admin/news/categories/create.html")
     
     @staticmethod
     def store():
@@ -34,7 +34,7 @@ class NewsCategory:
 
         if name == "":
             session["categories_name_error"] = "Name is required!"
-            return redirect("/admin/news_categories/create")
+            return redirect("/admin/news/categories/create")
 
         conn = DB.connect_db()
         conn.cursor()
@@ -43,12 +43,12 @@ class NewsCategory:
         conn.commit()
         conn.close()
 
-        return redirect("/admin/news_categories")
+        return redirect("/admin/news/categories")
     
     @staticmethod
     def edit(id):
         if id.isnumeric() != True or int(id) < 1:
-            return redirect("/admin/news_categories")
+            return redirect("/admin/news/categories")
 
         conn = DB.connect_db()
         conn.cursor()
@@ -62,19 +62,19 @@ class NewsCategory:
         }
         conn.close()
 
-        return render_template("admin/news_categories/edit.html", category=category)
+        return render_template("admin/news/categories/edit.html", category=category)
     
     @staticmethod
     def update(id):
         if id.isnumeric() != True or int(id) < 1:
-            return redirect("/admin/news_categories")
+            return redirect("/admin/news/categories")
         
         name = request.form.get("name")
         updated_at = datetime.datetime.now()
 
         if name == "":
             session["categories_name_error"] = "Name is required!"
-            return redirect(f"/admin/news_categories/edit/{id}")
+            return redirect(f"/admin/news/categories/edit/{id}")
 
         conn = DB.connect_db()
         conn.cursor()
@@ -83,12 +83,12 @@ class NewsCategory:
         conn.commit()
         conn.close()
 
-        return redirect("/admin/news_categories")
+        return redirect("/admin/news/categories")
     
     @staticmethod
     def delete(id):
         if id.isnumeric() != True or int(id) < 1:
-            return redirect("/admin/news_categories")
+            return redirect("/admin/news/categories")
         
         deleted_at = datetime.datetime.now()
 
@@ -99,4 +99,4 @@ class NewsCategory:
         conn.commit()
         conn.close()
 
-        return redirect("/admin/news_categories")
+        return redirect("/admin/news/categories")

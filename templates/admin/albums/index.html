@@ -40,7 +40,7 @@
                         <tr>
                             <td>{{ i+1 }}</td>
                             <td>{{ albums[i].title }}</td>
-                            <td>{{ albums[i].author_id }}</td>
+                            <td>{{ albums[i].author }}</td>
                             <td>{{ albums[i].description }}</td>
                             <td><img style="width: 100px;" src="{{ url_for('static', filename='upload/albums/' + albums[i].thumbnail) }}" alt="{{ albums[i].thumbnail }}"></td>
                             <td>{{ albums[i].price }}</td>

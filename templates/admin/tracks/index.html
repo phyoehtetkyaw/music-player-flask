@@ -8,10 +8,10 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Genres</h1>
+          <h1 class="m-0">Tracks</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
-          <a href="/admin/genres/create" class="btn btn-sm btn-primary float-right"><i class="fa fa-plus"></i> Add</a>
+          <a href="/admin/tracks/create" class="btn btn-sm btn-primary float-right"><i class="fa fa-plus"></i> Add</a>
         </div><!-- /.col -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -27,7 +27,10 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Album</th>
+                        <th>Track</th>
                         <th>Options</th>
                     </tr>
                 </thead>
@@ -35,10 +38,17 @@
                     {% for i in range(0, len) %}
                         <tr>
                             <td>{{ i+1 }}</td>
-                            <td>{{ genres[i].name }}</td>
+                            <td>{{ tracks[i].title }}</td>
+                            <td>{{ tracks[i].author }}</td>
+                            <td>{{ tracks[i].album }}</td>
                             <td>
-                                <a href="/admin/genres/edit/{{ genres[i].id }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
-                                <a href="/admin/genres/delete/{{ genres[i].id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt"></i> Delete</a>
+                              <audio controls>
+                                <source src="{{ url_for('static', filename='upload/tracks/' + tracks[i].track) }}" type="audio/mpeg">
+                              </audio>
+                            </td>
+                            <td>
+                                <a href="/admin/tracks/edit/{{ tracks[i].id }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                                <a href="/admin/tracks/delete/{{ tracks[i].id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt"></i> Delete</a>
                             </td>
                         </tr>
                     {% endfor %}

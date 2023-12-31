@@ -64,12 +64,12 @@ app.add_url_rule('/admin/albums/replies', "album_replies_index", view_func=Album
 app.add_url_rule('/admin/albums/replies/delete/<id>', "album_replies_delete", view_func=AlbumReply.delete)
 
 # news_categories
-app.add_url_rule('/admin/news_categories', "news_categories_index", view_func=NewsCategory.index)
-app.add_url_rule('/admin/news_categories/create', "news_categories_create", view_func=NewsCategory.create)
-app.add_url_rule('/admin/news_categories/store', "news_categories_store", methods=["POST"], view_func=NewsCategory.store)
-app.add_url_rule('/admin/news_categories/edit/<id>', "news_categories_edit", view_func=NewsCategory.edit)
-app.add_url_rule('/admin/news_categories/update/<id>', "news_categories_update", methods=["POST"], view_func=NewsCategory.update)
-app.add_url_rule('/admin/news_categories/delete/<id>', "news_categories_delete", view_func=NewsCategory.delete)
+app.add_url_rule('/admin/news/categories', "news_categories_index", view_func=NewsCategory.index)
+app.add_url_rule('/admin/news/categories/create', "news_categories_create", view_func=NewsCategory.create)
+app.add_url_rule('/admin/news/categories/store', "news_categories_store", methods=["POST"], view_func=NewsCategory.store)
+app.add_url_rule('/admin/news/categories/edit/<id>', "news_categories_edit", view_func=NewsCategory.edit)
+app.add_url_rule('/admin/news/categories/update/<id>', "news_categories_update", methods=["POST"], view_func=NewsCategory.update)
+app.add_url_rule('/admin/news/categories/delete/<id>', "news_categories_delete", view_func=NewsCategory.delete)
 
 # events
 app.add_url_rule('/admin/events', "events_index", view_func=Event.index)
