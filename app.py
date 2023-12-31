@@ -7,7 +7,6 @@ from app.classes.Ticket import Ticket
 from app.classes.AlbumComment import AlbumComment
 from app.classes.AlbumReply import AlbumReply
 from app.classes.NewsCategory import NewsCategory
-
 from app.classes.Event import Event
 from app.classes.Album import Album
 from app.classes.News import News
@@ -15,18 +14,26 @@ from app.classes.NewsComment import NewsComment
 from app.classes.NewsReply import NewsReply
 from app.classes.Product import Product
 from app.classes.Track import Track
+from app.classes.ClientView import ClientView
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('admin/404.html'), 404
+    return render_template('404.html'), 404
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+app.add_url_rule('/', "index", view_func=ClientView.index)
+app.add_url_rule('/artists', "artists", view_func=ClientView.artists)
+app.add_url_rule('/releases', "releases", view_func=ClientView.releases)
+app.add_url_rule('/events', "events", view_func=ClientView.events)
+app.add_url_rule('/podcasts', "podcasts", view_func=ClientView.podcasts)
+app.add_url_rule('/store', "store", view_func=ClientView.store)
+app.add_url_rule('/news', "news", view_func=ClientView.news)
+app.add_url_rule('/profile', "profile", view_func=ClientView.profile)
+app.add_url_rule('/about', "about", view_func=ClientView.about)
+app.add_url_rule('/contacts', "contacts", view_func=ClientView.contacts)
 
 
 @app.route("/admin")
